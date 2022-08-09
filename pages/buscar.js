@@ -1,13 +1,15 @@
-import styled from "@emotion/styled"
 import React from "react"
 import Layout from "../components/layout/Layout"
+import styled from "@emotion/styled"
 
-export default function Home() {
+const Buscar = () => {
   return (
     <div>
       <Layout>
-        <h1>Inicio</h1>
+        <h1>Buscar</h1>
       </Layout>
     </div>
   )
 }
+
+export default Buscar
