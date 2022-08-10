@@ -6,6 +6,8 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/react';
 import Boton from '../ui/Boton'
 import { FirebaseContext } from '../../firebase'
+import useAutenticacion from '../../hooks/useAutenticacion'
+import { signOut, getAuth } from 'firebase/auth'
 
 const ContenedorHeader = styled.div`
   max-width: 1200px;
@@ -27,26 +29,43 @@ const Logo = styled.p`
   cursor: pointer;
 `
 
+const HeaderElements = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const SesionElements = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+`
+
+const HelloUser = styled.p`
+  margin-right: 2rem;
+`
+
+const HeaderStyles = styled.header`
+  border-bottom: 2px solid #e1e1e1;
+  padding: 1rem 0;
+`
+
 const Header = () => {
 
-  const { user, firebase } = useContext(FirebaseContext)
+  const [user, auth] = useAutenticacion()
 
-  console.log(user)
+
+  const cerrarSesion = async () => {
+    try {
+      await signOut(auth)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
-    <header
-      style={css`
-        border-bottom: 2px solid #e1e1e1;
-        padding: 1rem 0;
-      `}
-    >
+    <HeaderStyles>
       <ContenedorHeader>
-        <div
-          style={css`
-            display: flex;
-            align-items: center;
-          `}
-        >
+        <HeaderElements>
           <Link href='/'>
             <Logo>P</Logo>
           </Link>
@@ -55,25 +74,15 @@ const Header = () => {
 
           <Navegacion />
 
-        </div>
+        </HeaderElements>
 
-        <div
-          style={css`
-            display: flex;
-            align-items: center;
-            margin-top: 2rem;
-          `}
-        >
+        <SesionElements>
           { user ? (
             <>
-              <p
-                style={css`
-                  margin-right: 2rem;
-                `}
-              >
+              <HelloUser>
                 Hola {user.displayName}
-              </p>
-              <Boton bgColor='true'>Cerrar sesión</Boton>
+              </HelloUser>
+              <Boton onClick={() => cerrarSesion()} bgColor='true'>Cerrar sesión</Boton>
             </>
           ) : (
             <>
@@ -86,9 +95,9 @@ const Header = () => {
             </>
 
           )}
-        </div>
+        </SesionElements>
       </ContenedorHeader>
-    </header>
+    </HeaderStyles>
   )
 }
 

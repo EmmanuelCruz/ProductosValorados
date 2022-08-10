@@ -3,9 +3,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function useAutenticacion() {
   const [usuarioAutenticado, setUsuarioAutenticado] = useState(null)
+  const [auth, setAuth] = useState(getAuth())
 
   useEffect(() => {
-    const auth = getAuth()
     const unsubscribe = onAuthStateChanged(auth, usuario => {
       if( usuario ) {
         setUsuarioAutenticado(usuario)
@@ -17,7 +17,7 @@ function useAutenticacion() {
     return () => unsubscribe()
   }, [])
 
-  return usuarioAutenticado
+  return [usuarioAutenticado, auth]
 }
 
 export default useAutenticacion

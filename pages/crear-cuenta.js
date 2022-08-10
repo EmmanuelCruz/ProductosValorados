@@ -9,6 +9,7 @@ import Router from 'next/router'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 // Validaciones
 import useValidacion from "../hooks/useValidacion"
+import useAutenticacion from "../hooks/useAutenticacion"
 
 const stateInicial = {
   nombre: '',
@@ -26,10 +27,11 @@ const CrearCuenta = () => {
   
   const { nombre, email, password} = valores
 
+  const [usuario, auth] = useAutenticacion()
+
   const [error, setError] = useState(false)
   
   async function crearCuenta() {
-    const auth = getAuth()
     try {
       const nuevoUsuario = await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(nuevoUsuario.user, {

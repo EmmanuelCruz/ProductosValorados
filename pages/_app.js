@@ -4,7 +4,7 @@ import firebase, { FirebaseContext } from '../firebase'
 import useAutenticacion from '../hooks/useAutenticacion'
 
 function MyApp({ Component, pageProps }) {
-  const usuario = useAutenticacion()
+  const [usuario, auth] = useAutenticacion()
 
   return(
     <FirebaseContext.Provider

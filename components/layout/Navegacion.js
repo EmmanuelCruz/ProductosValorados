@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from '@emotion/styled'
+import useAutenticacion from '../../hooks/useAutenticacion'
 
 const Nav = styled.nav`
   padding-left: 2rem;
@@ -14,11 +15,14 @@ const Nav = styled.nav`
 `
 
 const Navegacion = () => {
+
+  const [usuario, auth] = useAutenticacion()
+
   return (
     <Nav>
       <Link href='/'>Inicio</Link>      
-      <Link href='/populares'>Populares</Link>      
-      <Link href='/nuevo-producto'>Nuevo Producto</Link>      
+      <Link href='/populares'>Populares</Link>    
+      {usuario && <Link href='/nuevo-producto'>Nuevo Producto</Link> }
     </Nav>
   )
 }

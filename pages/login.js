@@ -9,6 +9,7 @@ import Router from 'next/router'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 // Validaciones
 import useValidacion from "../hooks/useValidacion"
+import useAutenticacion from "../hooks/useAutenticacion"
 
 const stateInicial = {
   email: '',
@@ -26,10 +27,10 @@ const Login = () => {
   const { email, password} = valores
 
   const [error, setError] = useState(false)
+
+  const [usuario, auth] = useAutenticacion()
   
   async function iniciarSesion() {
-    const auth = getAuth()
-
     try {
       await signInWithEmailAndPassword(auth, email, password)
       Router.push('/')
